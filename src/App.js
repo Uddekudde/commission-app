@@ -3,19 +3,27 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./App.css";
 
 //pages
-import { home } from "./pages/home";
-import { signup } from "./pages/signup";
-import { login } from "./pages/login";
+import Home from "./pages/home";
+import Signup from "./pages/signup";
+import Login from "./pages/login";
+import Listings from "./pages/listings";
+
+//components
+import Navbar from "./components/navbar";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={home} />
-          <Route exact path="/login" component={login} />
-          <Route exact path="/signup" component={signup} />
-        </Switch>
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/listings" component={Listings} />
+          </Switch>
+        </div>
       </BrowserRouter>
     </div>
   );

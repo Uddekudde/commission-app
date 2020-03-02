@@ -2,11 +2,21 @@ import React from "react";
 import AppBar from "@material-ui/core/Appbar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Link from "react-router-dom/Link";
+import { makeStyles } from "@material-ui/core/styles";
+import {Link} from "react-router-dom";
+
+const useStyles = makeStyles({
+  root: {
+    background: "linear-gradient(45deg, #FE6B8B 30%, #ff4081 90%)",
+    margin: "0 0 0 5px",
+    color: "white"
+  }
+});
 
 function Navbar() {
+  const classes = useStyles();
   return (
-    <AppBar>
+    <AppBar elevation={1}>
       <Toolbar>
         <div className="button-container">
           <Button color="inherit" component={Link} to="/">
@@ -20,7 +30,7 @@ function Navbar() {
           <Button color="inherit" component={Link} to="/login">
             Log in
           </Button>
-          <Button color="inherit" component={Link} to="/signup">
+          <Button variant="contained" className={classes.root} component={Link} to="/signup">
             Sign up
           </Button>
         </div>

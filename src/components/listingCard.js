@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -48,5 +49,11 @@ function ListingCard(props) {
     </Card>
   );
 }
+
+ListingCard.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  thumbnail: PropTypes.string
+};
 
 export default ListingCard;

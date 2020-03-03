@@ -8,15 +8,16 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-
 const useStyles = makeStyles({
   root: {
-    width: 345
+    width: 345,
+    margin: 10
   }
 });
 
 function ListingCard(props) {
   const classes = useStyles();
+  const { thumbnail, title, description } = props;
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -24,15 +25,15 @@ function ListingCard(props) {
           component="img"
           alt="Contemplative Reptile"
           height="140"
-          image={props.thumbnail}
+          image={thumbnail}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.title}
+            {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.description}
+            {description}
           </Typography>
         </CardContent>
       </CardActionArea>

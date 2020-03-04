@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 //MUI
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -10,33 +10,10 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import axios from "axios";
 
-const useStyles = makeStyles({
-  formContainer: {
-    textAlign: "center",
-    width: "396px",
-    margin: "0 auto 0 auto"
-  },
-  title: {
-    color: "#484848"
-  },
-  textField: {
-    margin: "10px 0 10px 0"
-  },
-  button: {
-    marginTop: "20px"
-  },
-  signup: {
-    marginTop: "20px",
-    color: "black"
-  },
-  errorMessage: {
-    color: "red",
-    marginTop: "10px"
-  }
-});
-
 function Login(props) {
   let history = useHistory();
+  let theme = useTheme();
+  const useStyles = makeStyles({ ...theme.spreadThis });
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,7 +30,7 @@ function Login(props) {
     axios
       .post("/login", loginData)
       .then(res => {
-        console.log(res.data);
+        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
         setLoading(false);
         history.push("/");
       })

@@ -7,41 +7,42 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+//Redux
+import { useDispatch, useSelector } from "react-redux";
+import { signupUserAction } from "../redux/actions/userActions";
 
 import axios from "axios";
 
 function Signup() {
   let history = useHistory();
+
   let theme = useTheme();
   const useStyles = makeStyles({ ...theme.spreadThis });
   const classes = useStyles();
+
+  const reduxUserState = useSelector(state => state.user);
+  const reduxUIState = useSelector(state => state.ui);
+  const loading = reduxUIState.loading;
+  const errors = reduxUIState.errors;
+  const dispatch = useDispatch();
+  const signupUser = (signupData, history) => {
+    dispatch(signupUserAction(signupData, history));
+  };
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [handle, setHandle] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
 
   function handleSubmit(event) {
     event.preventDefault();
-    setLoading(true);
     const newUserData = {
       email: email,
       password: password,
       confirmPassword: confirmPassword,
       handle: handle
     };
-    axios
-      .post("/signup", newUserData)
-      .then(res => {
-        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
-        setLoading(false);
-        history.push("/");
-      })
-      .catch(err => {
-        setErrors(err.response.data);
-        setLoading(false);
-      });
+    signupUser(newUserData, history);
   }
 
   function handleChange(event) {

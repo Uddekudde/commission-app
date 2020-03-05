@@ -10,7 +10,7 @@ export default (state = initialState, { type, payload }) => {
     case SET_ERRORS:
       return { ...state, loading: false, errors: payload };
     case CLEAR_ERRORS:
-      return { ...state, loading: false, errors: null };
+      return { ...state, loading: false, errors: {} };
     case LOADING_UI:
       return { ...state, loading: true };
     default:

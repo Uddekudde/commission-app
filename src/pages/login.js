@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 //MUI
@@ -11,16 +11,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserAction } from "../redux/actions/userActions";
 
-import axios from "axios";
-
 function Login() {
-  let history = useHistory();
+  const history = useHistory();
 
-  let theme = useTheme();
+  const theme = useTheme();
   const useStyles = makeStyles({ ...theme.spreadThis });
   const classes = useStyles();
 
-  const reduxUserState = useSelector(state => state.user);
   const reduxUIState = useSelector(state => state.ui);
   const loading = reduxUIState.loading;
   const errors = reduxUIState.errors;

@@ -3,7 +3,6 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   LOADING_UI,
-  SET_AUTHENTICATED,
   SET_UNAUTHENTICATED
 } from "../types";
 import axios from "axios";
@@ -41,7 +40,7 @@ export const signupUserAction = (newUserData, history) => dispatch => {
 export const logoutUserAction = () => dispatch => {
   localStorage.removeItem("FBIdToken");
   delete axios.defaults.headers.common["Authorization"];
-  dispatch(SET_AUTHENTICATED);
+  dispatch(SET_UNAUTHENTICATED);
 };
 
 export const getUserData = () => dispatch => {

@@ -4,14 +4,13 @@ export default {
       main: "#ffffff"
     },
     secondary: {
-      background: "linear-gradient(45deg, #7a49c4 30%, #ff4081 90%)",
       main: "#ff4081"
     }
   },
   spreadThis: {
     formContainer: {
       textAlign: "center",
-      width: "396px",
+      width: "400px",
       margin: "0 auto 0 auto"
     },
     title: {

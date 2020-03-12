@@ -18,6 +18,8 @@ import Listings from "./pages/listings";
 import Navbar from "./components/navbar";
 import themeContent from "./util/theme";
 import AuthRoute from "./util/authRoute";
+import ProtectedRoute from "./util/protectedRoute";
+import EditProfile from "./pages/editProfile";
 
 const theme = createMuiTheme(themeContent);
 
@@ -44,6 +46,7 @@ function App() {
               <Route exact path="/" component={Home} />
               <AuthRoute exact path="/login" component={Login} />
               <AuthRoute exact path="/signup" component={Signup} />
+              <ProtectedRoute exact path="/profile" component={EditProfile} />
               <Route exact path="/listings" component={Listings} />
             </Switch>
           </div>

@@ -14,12 +14,14 @@ import Home from "./pages/home";
 import Signup from "./pages/signup";
 import Login from "./pages/login";
 import Listings from "./pages/listings";
+import Listing from "./pages/listing";
+import EditProfile from "./pages/editProfile";
+import CreateListing from "./pages/createListing";
 //components
 import Navbar from "./components/navbar";
 import themeContent from "./util/theme";
 import AuthRoute from "./util/authRoute";
 import ProtectedRoute from "./util/protectedRoute";
-import EditProfile from "./pages/editProfile";
 
 const theme = createMuiTheme(themeContent);
 
@@ -47,7 +49,9 @@ function App() {
               <AuthRoute exact path="/login" component={Login} />
               <AuthRoute exact path="/signup" component={Signup} />
               <ProtectedRoute exact path="/profile" component={EditProfile} />
+              <ProtectedRoute exact path="/new" component={CreateListing} />
               <Route exact path="/listings" component={Listings} />
+              <Route exact path="/listings/:id" component={Listing} />
             </Switch>
           </div>
         </BrowserRouter>

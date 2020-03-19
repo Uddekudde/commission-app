@@ -86,7 +86,12 @@ function Navbar() {
           {!authenticated ? (
             <div />
           ) : (
-            <Button className={classes.signupButton} color="primary">
+            <Button
+              className={classes.signupButton}
+              color="primary"
+              component={Link}
+              to="/new"
+            >
               Create Listing
             </Button>
           )}

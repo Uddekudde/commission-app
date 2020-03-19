@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from "react";
 import ListingCard from "../components/listingCard";
+//MUI
 import { makeStyles } from "@material-ui/core/styles";
-import logo192 from "../components/logo192.png";
-import axios from "axios";
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { getListings } from "../redux/actions/dataActions";
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
     width: "90%",
-    margin: "auto",
+    marginRight: "auto",
+    marginLeft: "auto",
+    justifyContent: "space-between",
     flexWrap: "wrap"
   }
 });
 
 function Listings() {
   const classes = useStyles();
-  const [listings, setListings] = useState(null);
+  const dispatch = useDispatch();
+  const listings = useSelector(state => state.data.listings);
 
   useEffect(() => {
-    axios.get("/offers").then(response => {
-      setListings(response.data);
-    });
-  }, []);
+    dispatch(getListings());
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -29,9 +32,11 @@ function Listings() {
         listings.map(listing => (
           <ListingCard
             key={listing.offerId}
-            thumbnail={logo192}
-            title={listing.price}
+            thumbnail={listing.imageUrl}
+            title={listing.title}
             description={listing.description}
+            price={listing.price}
+            listing={listing.offerId}
           />
         ))
       ) : (

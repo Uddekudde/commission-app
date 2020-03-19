@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+//MUI
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -9,41 +11,52 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles({
+const styles = {
   root: {
-    width: 345,
+    width: 335,
     margin: 10
+  },
+  content: {
+    maxHeight: "100px"
+  },
+  priceContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end"
   }
-});
+};
 
 function ListingCard(props) {
+  const theme = useTheme();
+  const useStyles = makeStyles({ ...theme.spreadThis, ...styles });
   const classes = useStyles();
   const { thumbnail, title, description } = props;
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea component={Link} to={`/listings/${props.listing}`}>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
-          height="140"
+          alt="Example image"
+          height="200"
           image={thumbnail}
-          title="Contemplative Reptile"
+          title="Example image"
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+        <CardContent className={classes.content}>
+          <Typography variant="h6">{title}</Typography>
+          <Typography noWrap={true} variant="body2" color="textSecondary">
             {description}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="secondary">
-          Share
-        </Button>
-        <Button size="small" color="secondary">
-          Learn More
+      <CardActions className={classes.priceContainer}>
+        <Button
+          size="small"
+          color="secondary"
+          variant="contained"
+          component={Link}
+          to={`/listings/${props.listing}`}
+        >
+          {`$${props.price}`}
         </Button>
       </CardActions>
     </Card>
@@ -51,9 +64,11 @@ function ListingCard(props) {
 }
 
 ListingCard.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-  thumbnail: PropTypes.string
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+  price: PropTypes.string.isRequired,
+  listing: PropTypes.string.isRequired
 };
 
 export default ListingCard;

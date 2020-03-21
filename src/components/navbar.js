@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUserAction, getUserData } from "../redux/actions/userActions";
@@ -47,10 +47,11 @@ function Navbar() {
   const authenticated = userState.authenticated;
   const userData = userState.credentials;
   const dispatch = useDispatch();
+  const history = useHistory();
 
   function handleLogout() {
     handleClose();
-    dispatch(logoutUserAction());
+    dispatch(logoutUserAction(history));
   }
 
   function handleClick(event) {

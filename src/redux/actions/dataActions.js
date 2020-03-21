@@ -1,4 +1,4 @@
-import { SET_LISTINGS, LOADING_DATA } from "../types";
+import { SET_LISTINGS, SET_LISTING, LOADING_DATA } from "../types";
 
 import { getUserData } from "./userActions";
 import axios from "axios";
@@ -26,6 +26,24 @@ export const getListings = () => dispatch => {
       dispatch({
         type: SET_LISTINGS,
         payload: []
+      });
+    });
+};
+
+export const getListingWithAuthor = listingId => dispatch => {
+  dispatch({ type: SET_LISTING, payload: null });
+  axios
+    .get(`/offer/${listingId}`)
+    .then(response => {
+      dispatch({
+        type: SET_LISTING,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_LISTING,
+        payload: null
       });
     });
 };

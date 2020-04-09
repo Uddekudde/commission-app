@@ -16,8 +16,8 @@ const styles = {
     width: 335,
     margin: 10
   },
-  content: {
-    maxHeight: "100px"
+  media: {
+    height: "200px"
   },
   priceContainer: {
     display: "flex",
@@ -35,13 +35,12 @@ function ListingCard(props) {
     <Card className={classes.root}>
       <CardActionArea component={Link} to={`/listings/${props.listing}`}>
         <CardMedia
-          component="img"
           alt="Example image"
-          height="200"
+          className={classes.media}
           image={thumbnail}
           title="Example image"
         />
-        <CardContent className={classes.content}>
+        <CardContent>
           <Typography variant="h6">{title}</Typography>
           <Typography noWrap={true} variant="body2" color="textSecondary">
             {description}

@@ -1,4 +1,4 @@
-import { SET_LISTINGS, SET_LISTING, LOADING_DATA } from "../types";
+import { SET_LISTINGS, SET_LISTING, LOADING_DATA, SET_ERRORS } from "../types";
 
 import { getUserData } from "./userActions";
 import axios from "axios";
@@ -46,4 +46,19 @@ export const getListingWithAuthor = listingId => dispatch => {
         payload: null
       });
     });
+};
+
+export const postProjectRequest = (
+  listingId,
+  history,
+  formData
+) => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .post(`/offer/${listingId}/reply`, formData)
+    .then(response => {
+      dispatch(getUserData());
+      history.push("/");
+    })
+    .catch(err => dispatch({ type: SET_ERRORS, payload: err.response.data }));
 };

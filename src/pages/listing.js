@@ -1,4 +1,5 @@
 import React, { useEffect, Fragment } from "react";
+import { Link } from "react-router-dom";
 import ProfileCard from "../components/profileCard";
 //MUI
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -14,10 +15,7 @@ const styles = {
   root: {
     width: "90%",
     marginRight: "auto",
-    marginLeft: "auto"
-  },
-  hr: {
-    border: "0.5px solid #dddddd"
+    marginLeft: "auto",
   },
   imageContainer: {
     position: "absolute",
@@ -25,7 +23,7 @@ const styles = {
     left: "0%",
     width: "100%",
     height: "660px",
-    display: "flex"
+    display: "flex",
   },
   exampleImage: {
     height: "640px",
@@ -33,7 +31,7 @@ const styles = {
     marginTop: "10px",
     marginRight: "auto",
     marginLeft: "auto",
-    zIndex: "1"
+    zIndex: "1",
   },
   blurryBackground: {
     position: "absolute",
@@ -42,19 +40,22 @@ const styles = {
     width: "120%",
     height: "680px",
     filter: "blur(8px)",
-    marginTop: "-10px"
+    marginTop: "-10px",
   },
   imageSpacing: {
     width: "100%",
-    height: "680px"
+    height: "680px",
   },
   contentContainer: {
-    display: "flex"
+    display: "flex",
+    flexWrap: "wrap",
   },
   contentItem: {
     marginRight: "10px",
-    maxWidth: "400px"
-  }
+    marginBottom: "10px",
+    maxWidth: "360px",
+    minWidth: "300px",
+  },
 };
 
 function Listing(props) {
@@ -63,7 +64,7 @@ function Listing(props) {
   const classes = useStyles();
   const listingId = props.match.params.id;
   const dispatch = useDispatch();
-  const listing = useSelector(state => state.data.listing);
+  const listing = useSelector((state) => state.data.listing);
 
   useEffect(() => {
     dispatch(getListingWithAuthor(listingId));
@@ -92,10 +93,28 @@ function Listing(props) {
             <Card className={classes.contentItem}>
               <CardContent>
                 <Typography variant="h6">Description</Typography>
-                <Typography variant="body1">{`${listing.description} what the fuck did you just say about me you ltitle shit? ill have you know`}</Typography>
+                <Typography variant="body1">{`${listing.description}`}</Typography>
               </CardContent>
             </Card>
-            <ProfileCard user={listing.author} />
+            <div className={classes.contentItem}>
+              <ProfileCard user={listing.author} />
+            </div>
+            <Card className={classes.contentItem}>
+              <CardContent>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  component={Link}
+                  to={`/projects/new/${listing.offerId}`}
+                  fullWidth
+                >
+                  <Typography variant="body1">Request Project</Typography>
+                </Button>
+                <hr className={classes.hr} />
+                <Typography variant="body1">Starting at</Typography>
+                <Typography variant="h4">{`$${listing.price}`}</Typography>
+              </CardContent>
+            </Card>
           </div>
         </Fragment>
       ) : (

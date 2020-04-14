@@ -1,9 +1,15 @@
-import { SET_LISTINGS, SET_LISTING, LOADING_DATA } from "../types";
+import {
+  SET_LISTINGS,
+  SET_LISTING,
+  LOADING_DATA,
+  SET_PROJECTS,
+} from "../types";
 
 const initialState = {
   listings: null,
   listing: null,
-  loading: false
+  projects: null,
+  loading: false,
 };
 
 export default (state = initialState, action) => {
@@ -11,19 +17,25 @@ export default (state = initialState, action) => {
     case LOADING_DATA:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case SET_LISTINGS:
       return {
         ...state,
         listings: action.payload,
-        loading: false
+        loading: false,
       };
     case SET_LISTING:
       return {
         ...state,
         listing: action.payload,
-        loading: false
+        loading: false,
+      };
+    case SET_PROJECTS:
+      return {
+        ...state,
+        projects: action.payload.replies,
+        loading: false,
       };
     default:
       return state;

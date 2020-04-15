@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ProfileCard from "../components/profileCard";
 //MUI
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -9,7 +9,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { getListingWithAuthor } from "../redux/actions/dataActions";
+import {
+  getListingWithAuthor,
+  deleteListing,
+} from "../redux/actions/dataActions";
 
 const styles = {
   root: {
@@ -64,11 +67,18 @@ function Listing(props) {
   const classes = useStyles();
   const listingId = props.match.params.id;
   const dispatch = useDispatch();
+  const history = useHistory();
   const listing = useSelector((state) => state.data.listing);
+  const user = useSelector((state) => state.user);
+  const userHandle = user.credentials.handle;
 
   useEffect(() => {
     dispatch(getListingWithAuthor(listingId));
   }, [dispatch, listingId]);
+
+  function handleClick() {
+    dispatch(deleteListing(listingId, history));
+  }
 
   return (
     <div className={classes.root}>
@@ -110,6 +120,16 @@ function Listing(props) {
                 >
                   <Typography variant="body1">Request Project</Typography>
                 </Button>
+                {listing.handle === userHandle ? (
+                  <Button variant="contained" color="secondary" fullWidth>
+                    <Typography onClick={handleClick} variant="body1">
+                      Delete Listing
+                    </Typography>
+                  </Button>
+                ) : (
+                  <div />
+                )}
+
                 <hr className={classes.hr} />
                 <Typography variant="body1">Starting at</Typography>
                 <Typography variant="h4">{`$${listing.price}`}</Typography>

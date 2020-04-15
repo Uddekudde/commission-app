@@ -76,3 +76,13 @@ export const getProjectRequests = () => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const deleteListing = (listingId, history) => (dispatch) => {
+  axios
+    .delete(`/offer/${listingId}`)
+    .then((response) => {
+      dispatch(getUserData());
+      history.push("/");
+    })
+    .catch((err) => console.log(err));
+};

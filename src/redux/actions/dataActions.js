@@ -4,6 +4,7 @@ import {
   LOADING_DATA,
   SET_ERRORS,
   SET_PROJECTS,
+  SET_OUTBOUND_PROJECTS,
 } from "../types";
 
 import { getUserData } from "./userActions";
@@ -77,12 +78,31 @@ export const getProjectRequests = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+export const getOutboundProjectRequests = () => (dispatch) => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get("/projects")
+    .then((response) => {
+      dispatch({ type: SET_OUTBOUND_PROJECTS, payload: response.data });
+    })
+    .catch((err) => console.log(err));
+};
+
 export const deleteListing = (listingId, history) => (dispatch) => {
   axios
     .delete(`/offer/${listingId}`)
     .then((response) => {
       dispatch(getUserData());
       history.push("/");
+    })
+    .catch((err) => console.log(err));
+};
+
+export const confirmProject = (replyId, status) => (dispatch) => {
+  axios
+    .post(`/reply/${replyId}`, status)
+    .then((res) => {
+      dispatch(getUserData());
     })
     .catch((err) => console.log(err));
 };

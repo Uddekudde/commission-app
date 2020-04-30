@@ -2,7 +2,8 @@ import {
   SET_USER,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
-  LOADING_USER
+  LOADING_USER,
+  MARK_NOTIFICATIONS_READ
 } from "../types";
 
 const initialState = {
@@ -33,6 +34,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case MARK_NOTIFICATIONS_READ:
+      let newState = { ...state };
+      newState.notifications.forEach(
+        notification => (notification.read = true)
+      );
+      return {
+        ...newState
       };
     default:
       return state;

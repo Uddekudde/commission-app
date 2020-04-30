@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Notifications from "./notifications";
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUserAction, getUserData } from "../redux/actions/userActions";
@@ -10,9 +11,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import Notifications from "@material-ui/icons/Notifications";
 
 const useStyles = makeStyles({
   signupButton: {
@@ -91,7 +89,7 @@ function Navbar() {
               className={classes.signupButton}
               color="primary"
               component={Link}
-              to="/new"
+              to="/listings/new"
             >
               Create Listing
             </Button>
@@ -119,11 +117,7 @@ function Navbar() {
             </Fragment>
           ) : (
             <Fragment>
-              <Tooltip title="notifications">
-                <IconButton>
-                  <Notifications color="inherit" />
-                </IconButton>
-              </Tooltip>
+              <Notifications />
               <img
                 src={userData.imageUrl}
                 alt="profile"
@@ -133,11 +127,6 @@ function Navbar() {
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
-                anchorReference="anchorEl"
-                getContentAnchorEl={null}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                transformOrigin={{ vertical: "top", horizontal: "center" }}
-                keepMounted
                 open={open}
                 onClose={handleClose}
               >

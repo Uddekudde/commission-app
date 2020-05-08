@@ -33,5 +33,9 @@ export default {
     hr: {
       border: "0.5px solid #dddddd",
     },
+    nunitoLight: {
+      fontFamily: "Nunito Sans, sans-serif",
+      fontWeight: "300",
+    },
   },
 };

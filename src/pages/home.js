@@ -1,14 +1,18 @@
 import React, { Fragment, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ProfileCard from "../components/profileCard";
+import ProjectCard from "../components/projectCard";
 //Mui
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { getProjectRequests } from "../redux/actions/dataActions";
+import {
+  getProjectRequests,
+  getOutboundProjectRequests,
+  confirmProject,
+} from "../redux/actions/dataActions";
 
 const styles = {
   root: {
@@ -20,22 +24,27 @@ const styles = {
     width: "400px",
   },
   flexContainer: {
-    marginTop: "20px",
     display: "flex",
     justifyContent: "space-between",
     flexWrap: "wrap",
   },
-  project: {
-    margin: "10px",
+  heading: {
+    marginTop: "150px",
+    maxWidth: "450px",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
-  profileImage: {
-    width: 50,
-    height: 50,
-    objectFit: "cover",
-    maxWidth: "100%",
-    borderRadius: "50%",
-    marginLeft: "10px",
-    cursor: "pointer",
+  subHeading: {
+    marginTop: "20px",
+    maxWidth: "450px",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  button: {
+    background: "linear-gradient(45deg, #FE6B8B 30%, #ff4081 90%)",
+    marginTop: "40px",
+    marginLeft: "42%",
+    marginRight: "42%",
   },
 };
 
@@ -46,11 +55,18 @@ function Home() {
   const userState = useSelector((state) => state.user);
   const userData = userState.credentials;
   const projects = useSelector((state) => state.data.projects);
+  const OutboundProjects = useSelector((state) => state.data.outboundProjects);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProjectRequests());
+    dispatch(getOutboundProjectRequests());
   }, [dispatch]);
+
+  function handleConfirm(replyId, status) {
+    let statusData = { status: status };
+    dispatch(confirmProject(replyId, statusData));
+  }
 
   return (
     <div>
@@ -65,25 +81,57 @@ function Home() {
             </div>
             <hr className={classes.hr} />
             {projects.map((project) => (
-              <Card key={project.createdAt} className={classes.project}>
-                <CardContent className={classes.flexContainer}>
-                  <Typography variant="h6">{project.name}</Typography>
-                  <Typography variant="body1">{`Description: ${project.description}`}</Typography>
-                  <Typography variant="body1">{`Deadline: ${project.deadline}`}</Typography>
-                  <img
-                    src={project.userImage}
-                    alt="profile"
-                    className={classes.profileImage}
-                  />
-                </CardContent>
-              </Card>
+              <ProjectCard
+                key={project.replyId}
+                project={project}
+                handleConfirm={handleConfirm}
+                outbound={false}
+              />
             ))}
+            <Typography variant="h5">Requested Projects</Typography>
+            <hr className={classes.hr} />
+            {OutboundProjects ? (
+              OutboundProjects.map((project) => (
+                <ProjectCard
+                  key={project.replyId}
+                  project={project}
+                  outbound={true}
+                />
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
           </Fragment>
         ) : (
           <div>Loading...</div>
         )
       ) : (
-        <div />
+        <Fragment>
+          <Typography
+            variant="h4"
+            align="center"
+            className={`${classes.nunitoLight} ${classes.heading}`}
+          >
+            Commission app helps you find and advertise art commissions.
+          </Typography>
+          <Typography
+            variant="h5"
+            align="center"
+            className={`${classes.nunitoLight} ${classes.subHeading}`}
+          >
+            Create listings with examples of your work and get requests from
+            clients or find the right creator for a custom commission.
+          </Typography>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/login"
+            color="secondary"
+            className={classes.button}
+          >
+            start advertising
+          </Button>
+        </Fragment>
       )}
     </div>
   );

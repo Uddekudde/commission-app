@@ -28,6 +28,10 @@ import ProtectedRoute from "./util/protectedRoute";
 
 const theme = createMuiTheme(themeContent);
 const customHistory = createBrowserHistory();
+const projectPrefix = "/commission-app";
+
+axios.defaults.baseURL =
+  "https://europe-west1-commissionalpaca.cloudfunctions.net/api";
 
 const token = localStorage.getItem("FBIdToken");
 if (token) {
@@ -46,7 +50,7 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <BrowserRouter history={customHistory}>
+        <BrowserRouter history={customHistory} basename={projectPrefix}>
           <Navbar />
           <div className="container">
             <Switch>

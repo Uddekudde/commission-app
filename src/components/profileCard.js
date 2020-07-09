@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 //MUI
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -13,7 +15,7 @@ import MuiLink from "@material-ui/core/Link";
 const styles = {
   paper: {
     padding: 20,
-    maxWidth: 400
+    maxWidth: 400,
   },
   profile: {
     "& .image-wrapper": {
@@ -22,41 +24,41 @@ const styles = {
       "& button": {
         position: "absolute",
         top: "80%",
-        left: "70%"
-      }
+        left: "70%",
+      },
     },
     "& .profile-image": {
       width: 200,
       height: 200,
       objectFit: "cover",
       maxWidth: "100%",
-      borderRadius: "50%"
+      borderRadius: "50%",
     },
     "& .profile-details": {
       textAlign: "center",
       "& span, svg": {
-        verticalAlign: "middle"
+        verticalAlign: "middle",
       },
       "& a": {
-        color: "black"
-      }
+        color: "black",
+      },
     },
     "& hr": {
       border: "none",
-      margin: "0 0 10px 0"
+      margin: "0 0 10px 0",
     },
     "& svg.button": {
       "&:hover": {
-        cursor: "pointer"
-      }
-    }
+        cursor: "pointer",
+      },
+    },
   },
   buttons: {
     textAlign: "center",
     "& a": {
-      margin: "20px 10px"
-    }
-  }
+      margin: "20px 10px",
+    },
+  },
 };
 
 function ProfileCard(props) {
@@ -64,6 +66,7 @@ function ProfileCard(props) {
   const useStyles = makeStyles({ ...theme.spreadThis, ...styles });
   const classes = useStyles();
   const user = props.user;
+  dayjs.extend(relativeTime);
 
   let profileMarkup = user ? (
     <Paper className={classes.paper}>
@@ -101,7 +104,7 @@ function ProfileCard(props) {
             </Fragment>
           )}
           <CalendarToday color="secondary" />{" "}
-          <span>Joined {user.createdAt}</span>
+          <span>Joined {dayjs(user.createdAt).fromNow()}</span>
         </div>
       </div>
     </Paper>
@@ -113,7 +116,7 @@ function ProfileCard(props) {
 }
 
 ProfileCard.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
 };
 
 export default ProfileCard;

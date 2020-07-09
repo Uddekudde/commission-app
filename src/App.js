@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import "./App.css";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
@@ -50,7 +50,7 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <BrowserRouter history={customHistory} basename={projectPrefix}>
+        <HashRouter history={customHistory} basename={projectPrefix}>
           <Navbar />
           <div className="container">
             <Switch>
@@ -72,7 +72,7 @@ function App() {
               />
             </Switch>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </Provider>
     </MuiThemeProvider>
   );

@@ -59,8 +59,10 @@ function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProjectRequests());
-    dispatch(getOutboundProjectRequests());
+    if (userState.authenticated) {
+      dispatch(getProjectRequests());
+      dispatch(getOutboundProjectRequests());
+    }
   }, [dispatch]);
 
   function handleConfirm(replyId, status) {

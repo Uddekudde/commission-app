@@ -5,89 +5,92 @@ import {
   LOADING_UI,
   SET_UNAUTHENTICATED,
   LOADING_USER,
-  MARK_NOTIFICATIONS_READ
+  MARK_NOTIFICATIONS_READ,
 } from "../types";
+import { getProjectRequests, getOutboundProjectRequests } from "./dataActions";
 import axios from "axios";
 
-export const loginUserAction = (loginData, history) => dispatch => {
+export const loginUserAction = (loginData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
     .post("/login", loginData)
-    .then(res => {
+    .then((res) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
+      dispatch(getProjectRequests());
+      dispatch(getOutboundProjectRequests());
       dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({ type: SET_ERRORS, payload: err.response.data });
     });
 };
 
-export const signupUserAction = (newUserData, history) => dispatch => {
+export const signupUserAction = (newUserData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
     .post("/signup", newUserData)
-    .then(res => {
+    .then((res) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({ type: SET_ERRORS, payload: err.response.data });
     });
 };
 
-export const logoutUserAction = history => dispatch => {
+export const logoutUserAction = (history) => (dispatch) => {
   localStorage.removeItem("FBIdToken");
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: SET_UNAUTHENTICATED });
   history.push("/");
 };
 
-export const getUserData = () => dispatch => {
+export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
     .get("/user")
-    .then(res => {
+    .then((res) => {
       dispatch({ type: SET_USER, payload: res.data });
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
-export const editUserDetails = userDetails => dispatch => {
+export const editUserDetails = (userDetails) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
     .post("/user", userDetails)
     .then(() => {
       dispatch(getUserData());
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
-export const uploadImage = formData => dispatch => {
+export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
     .post("/user/image", formData)
     .then(() => {
       dispatch(getUserData());
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
-export const markNotificationsRead = notificationIds => dispatch => {
+export const markNotificationsRead = (notificationIds) => (dispatch) => {
   axios
     .post("/notifications", notificationIds)
-    .then(res => {
+    .then((res) => {
       dispatch({
-        type: MARK_NOTIFICATIONS_READ
+        type: MARK_NOTIFICATIONS_READ,
       });
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
-const setAuthorizationHeader = token => {
+const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem("FBIdToken", FBIdToken);
   axios.defaults.headers.common["Authorization"] = FBIdToken;
